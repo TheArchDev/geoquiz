@@ -1,0 +1,26 @@
+<h1>register.html page successfully loaded</h1>
+
+<!--
+	Chose maxlengths based on the SQL table auth_user - could probably shorten the password and email length restraints here.
+
+	Haven't added the id flags to the 3x input fields. Therefore currently not sure if the for flags within the label elements are actually doing anything.
+
+	Add in a confirm password input
+
+	Could do some form validation with Django to check i) if the email is already in use by another use ii) that the email is of correct form (HTML 'required' flag only checks that there is a @. Looking at user entry later in Django admin page considers that as an invalid email address still)
+-->
+
+<form action='/register/' method='post'>
+	{% csrf_token %}
+	<label for='first_name'>First name:</label>
+	<input type='text' name='first_name' maxlength='30'></input></br>
+	<label for='last_name'>Last name:</label>
+	<input type='text' name='last_name' maxlength='30'></input></br>
+	<label for='username'>Username*:</label>
+	<input type='text' name='username' maxlength='30' required></input></br>
+	<label for='password'>Password*:</label>
+	<input type='password' name='password' maxlength='128' required></input></br>
+	<label for='email'>Email*:</label>
+	<input type='email' name='email' maxlength='254' required></input></br>
+	<input type='submit' name='SUBMIT' value="Register"></input>
+</form>

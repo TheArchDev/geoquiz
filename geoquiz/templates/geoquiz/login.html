@@ -1,0 +1,12 @@
+<h1>Login page</h1>
+
+<p>{{ error }}</p>
+
+<form action='/login/' method='post'>
+	{% csrf_token %}
+	<label for='username'>Username*:</label>
+	<input type='text' name='username' maxlength='30' required></input></br>
+	<label for='password'>Password*:</label>
+	<input type='password' name='password' maxlength='128' required></input></br>
+	<input type='submit' name='SUBMIT' value="Login"></input>
+</form>
