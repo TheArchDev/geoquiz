@@ -1,4 +1,12 @@
-<h1>register.html page successfully loaded</h1>
+{% extends 'geoquiz/base.html' %}
+
+{% block content %}
+
+<head>
+	<title>Geoquiz Register</title>
+</head>
+
+<h1>Register page</h1>
 
 <!--
 	Chose maxlengths based on the SQL table auth_user - could probably shorten the password and email length restraints here.
@@ -24,3 +32,5 @@
 	<input type='email' name='email' maxlength='254' required></input></br>
 	<input type='submit' name='SUBMIT' value="Register"></input>
 </form>
+
+{% endblock %}

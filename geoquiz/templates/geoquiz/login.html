@@ -1,3 +1,11 @@
+{% extends 'geoquiz/base.html' %}
+
+{% block content %}
+
+<head>
+	<title>Geoquiz Login</title>
+</head>
+
 <h1>Login page</h1>
 
 <p>{{ error }}</p>
@@ -10,3 +18,5 @@
 	<input type='password' name='password' maxlength='128' required></input></br>
 	<input type='submit' name='SUBMIT' value="Login"></input>
 </form>
+
+{% endblock %}

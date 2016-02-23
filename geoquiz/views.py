@@ -53,7 +53,7 @@ def login_user(request):
 
 
 def logout_user(request):
-	
+	#add in a line to check if someone is actually logged in. If not, just redirect/render home page. Don't want logout message appearing if no logout happened.
 	logout(request)
 
 	logout_message = "You've successfully logged out."
