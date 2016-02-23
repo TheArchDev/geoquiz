@@ -1,19 +1,13 @@
 {% extends 'geoquiz/base.html' %}
 
-{% block content %}
+{% block title %}Home - Geoquiz{% endblock %}
 
-<head>
-	<title>Geoquiz Home page</title>
-</head>
+{% block content %}
 
 <h1>Home HTML document</h1>
 
+<h2>{{ user.username}}</h2>
+
 <p>{{ logout_message }}</p>
-
-{% endblock %}
-
-{% block content2 %}
-
-<h3>Header 3 from home.html, as part of content2</h3>
 
 {% endblock %}

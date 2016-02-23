@@ -1,13 +1,16 @@
+<!DOCTYPE html>
 {% load staticfiles %}
 
-<html>
+<html lang='en'>
 <head>
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-	<link rel="stylesheet" href="{% static 'css/geoquiz.css' %}">
+	<link rel="stylesheet" href="{% static 'css/geoquiz.css' %}" type="text/css">
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	<!-- Latest compiled and minified JavaScript -->
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+  	<title>{% block title %}Geoquiz{% endblock %}</title>
 </head>
 
 <body>
@@ -28,8 +31,8 @@
 	    <!-- Collect the nav links, forms, and other content for toggling -->
 	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	      <ul class="nav navbar-nav">
-	        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-	        <li><a href="#">Link</a></li>
+	        <li class="active"><a href="/list">List <span class="sr-only">(current)</span></a></li>
+	        <li><a href="/quiz">Quiz</a></li>
 	        <li class="dropdown">
 	          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
 	          <ul class="dropdown-menu">
@@ -50,13 +53,13 @@
 	        <button type="submit" class="btn btn-default">Submit</button>
 	      </form>
 	      <ul class="nav navbar-nav navbar-right">
-	        <li><a href="#">Link</a></li>
+	        <li><a href="#">{{ user.username }}</a></li>
 	        <li class="dropdown">
-	          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+	          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span class="caret"></span></a>
 	          <ul class="dropdown-menu">
-	            <li><a href="#">Action</a></li>
-	            <li><a href="#">Another action</a></li>
-	            <li><a href="#">Something else here</a></li>
+	            <li><a href="/register">Register</a></li>
+	            <li><a href="/login">Login</a></li>
+	            <li><a href="/logout">Logout</a></li>
 	            <li role="separator" class="divider"></li>
 	            <li><a href="#">Separated link</a></li>
 	          </ul>
@@ -69,10 +72,8 @@
 {% block content %}
 {% endblock %}
 
-<h2>Header 2 from base.html</h2>
 
-{% block content2 %}
-{% endblock %}
+<!-- Look into having footer put in here, after the child html page content -->
 
 </body>
 </html>

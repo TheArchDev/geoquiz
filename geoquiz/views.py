@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 #from .models import
 
+from django.template import RequestContext
 
 #Make a helper function that will verify if someone is logged in or not, and have a parameter that will be the URL to relocate to after they've successfully logged in??
 
@@ -60,7 +61,9 @@ def logout_user(request):
 	return render(request, 'geoquiz/home.html', {"logout_message": logout_message})
 
 def list(request):
-	return HttpResponse("List page")
+	#return HttpResponse("List page")
+	return render(request, 'geoquiz/list.html', {})
 
 def quiz(request):
-	return HttpResponse("Quiz page")
+	#return HttpResponse("Quiz page")
+	return render(request, 'geoquiz/quiz.html', {})
