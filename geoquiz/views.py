@@ -29,6 +29,8 @@ def register(request):
 		#NB I tried doing return redirect('/register/') instead. This still works, but it goes through urls.py then through this whole function again, rather than just going straight to the html page.
 
 	user.save()
+	
+	#probably would only want to save the country, once know that the entry has been successfully added to auth_user.
 
 	user = authenticate(username=request.POST['username'], password=request.POST['password'])
 	login(request,user)
