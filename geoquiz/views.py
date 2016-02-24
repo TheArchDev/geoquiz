@@ -42,7 +42,6 @@ def register(request):
 	return redirect('/')
 	#check that this works correctly once I have a header showing who's currently logged in.
 
-
 def login_user(request):
 	if request.method != "POST":
 		return render(request, 'geoquiz/login.html', {})
@@ -52,7 +51,7 @@ def login_user(request):
 	if not user:
 		#get it to display some kind of temporary pop-up/message or indicator in the HTML now that
 		error_message = "Invalid username/password combination"
-		return render(request, 'geoquiz/login.html', {"error": error_message})
+		return render(request, 'geoquiz/login.html', {"error_message": error_message})
 
 	login(request,user)
 
@@ -67,6 +66,9 @@ def logout_user(request):
 	return render(request, 'geoquiz/home.html', {"logout_message": logout_message})
 
 def list(request):
+	if not request.user.is_authenticated():
+		error_message = "Please log in first"
+		return render(request, 'geoquiz/login.html', {'error_message': error_message})
 
 	all_countries = Country.objects.all()
 
@@ -88,7 +90,27 @@ def list(request):
 
 	return render(request, 'geoquiz/list.html', {"all_countries": all_countries})
 
-
 def quiz(request):
-	#return HttpResponse("Quiz page")
+	if not request.user.is_authenticated():
+		error_message = "Please log in first"
+		return render(request, 'geoquiz/login.html', {'error_message': error_message})
+
 	return render(request, 'geoquiz/quiz.html', {})
+
+def run_quiz(request):
+	if not request.user.is_authenticated():
+		return redirect('/login')
+
+	question_categories = {u'1':'Country to Capital', u'2':'Country to Flag', u'3':'Capital to Country', u'4':'Capital to Flag', u'5':'Flag to Country', u'6':'Flag to Capital'}
+
+	if request.method != 'POST':
+		region = request.GET.get('region')
+		print region
+		question_type = question_categories[request.GET.get('question_type')]
+		print question_type
+
+		return render(request, 'geoquiz/run_quiz.html', {'region': region, 'question_type': question_type})
+
+	answer = request.POST['answer']
+	print answer
+	return HttpResponse("question answered")

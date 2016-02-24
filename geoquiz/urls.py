@@ -25,4 +25,5 @@ urlpatterns = [
     url(r'^logout/$', views.logout_user, name='logout_user'),
     url(r'^list/$', views.list, name='list'),
     url(r'^quiz/$', views.quiz, name='quiz'),
+    url(r'^quiz/run/$', views.run_quiz, name='run_quiz'),
 ]

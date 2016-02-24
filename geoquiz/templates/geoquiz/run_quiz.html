@@ -1,0 +1,22 @@
+{% extends 'geoquiz/base.html' %}
+
+{% block title %}Active Quiz - Geoquiz{% endblock %}
+
+
+{% block content %}
+
+<h1>Run Quiz HTML document</h1>
+
+<h3>Region: {{ region }}</h3>
+<h3>Category: {{ question_type }}</h3>
+
+<p>Question: </p>
+
+<form action='/quiz/run/' method='post'>
+	{% csrf_token %}
+	<label for='answer'>Answer:</label>
+	<input type='text' name='answer' maxlength='30' required></input></br>
+	<input type='submit' name='SUBMIT' value="Submit Answer"></input>
+</form>
+
+{% endblock %}

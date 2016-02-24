@@ -5,5 +5,27 @@
 {% block content %}
 
 <h1>Quiz HTML document</h1>
+<h2>Choose your quiz</h2>
+
+
+<form action='/quiz/run' method='get'>
+	<label>Region:</label>
+	<select name='region'>
+		<option value='Asia'>Asia</option>
+		<option value='Europe'>Europe</option>
+	</select>
+</br>
+	<label>Question Type</label>
+	<select name="question_type">
+		<option value='1'>Country to Capital</option>
+		<option value='2'>Country to Flag</option>
+		<option value='3'>Capital to Country</option>
+		<option value='4'>Capital to Flag</option>
+		<option value='5'>Flag to Country</option>
+		<option value='6'>Flag to Capital</option>
+	</select>
+</br>
+	<input type='submit' name='SUBMIT' value="Start Quiz"></input>
+</form>
 
 {% endblock %}
