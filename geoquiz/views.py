@@ -7,6 +7,8 @@ from .models import Country
 
 from django.template import RequestContext
 
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 #Make a helper function that will verify if someone is logged in or not, and have a parameter that will be the URL to relocate to after they've successfully logged in??
 
 def home(request):
@@ -63,14 +65,21 @@ def logout_user(request):
 	return render(request, 'geoquiz/home.html', {"logout_message": logout_message})
 
 def list(request):
-	#return HttpResponse("List page")
 
-	#all_countries = ["Canada", "Germany", "Jamaica"]
 	all_countries = Country.objects.all()
 
-	message = "Successful substitution"
+	paginator = Paginator(all_countries,10)
 
-	return render(request, 'geoquiz/list.html', {"all_countries": all_countries, "message": message})
+	page = request.GET.get('page')
+
+	try:
+		all_countries = paginator.page(page)
+	except PageNotAnInteger:
+		all_countries = paginator.page(1)
+	except EmptyPage:
+		all_countries = paginator.page(paginator.num_pages)
+
+	return render(request, 'geoquiz/list.html', {"all_countries": all_countries})
 
 
 def quiz(request):

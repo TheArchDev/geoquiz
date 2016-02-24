@@ -6,18 +6,47 @@
 
 <h1>List HTML document</h1>
 
-<p>{{ message }}</p>
+<h2>List of all countries in database </h2>
 
+<div class="pagination">
+	<span class="step-links">
+		{% if all_countries.has_previous %}
+		<a href = "?page={{ all_countries.previous_page_number }}">previous</a>
+		{% endif %}
+
+		<span class="current">
+			Page {{ all_countries.number }} of {{ all_countries.paginator.num_pages }}.
+		</span>
+
+		{% if all_countries.has_next %}
+		<a href = "?page={{ all_countries.next_page_number }}">next</a>
+		{% endif %}
+	</span>
+</div>
 
 <ul>
-	<p>List of all countries in database</p>
 	{% for country in all_countries %}
 	<li>{{ country.name }}</li>
 	<li>{{ country.capital }}</li>
-	<li>{{ country.continent }}</li>
-	</br>
-	{% endfor %}
+	<li>{{ country.region }}</li>
+</br>
+{% endfor %}
 </uL>
 
+<div class="pagination">
+	<span class="step-links">
+		{% if all_countries.has_previous %}
+		<a href = "?page={{ all_countries.previous_page_number }}">previous</a>
+		{% endif %}
+
+		<span class="current">
+			Page {{ all_countries.number }} of {{ all_countries.paginator.num_pages }}.
+		</span>
+
+		{% if all_countries.has_next %}
+		<a href = "?page={{ all_countries.next_page_number }}">next</a>
+		{% endif %}
+	</span>
+</div>
 
 {% endblock %}
