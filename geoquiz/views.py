@@ -9,6 +9,8 @@ from django.template import RequestContext
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+from django.db.models import Q
+
 #Make a helper function that will verify if someone is logged in or not, and have a parameter that will be the URL to relocate to after they've successfully logged in??
 
 def home(request):
@@ -67,6 +69,11 @@ def logout_user(request):
 def list(request):
 
 	all_countries = Country.objects.all()
+
+	search = request.GET.get('search')
+
+	if search:
+		all_countries = all_countries.filter(Q(name__icontains=search) | Q(capital__icontains=search))
 
 	paginator = Paginator(all_countries,10)
 
