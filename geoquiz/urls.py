@@ -26,4 +26,6 @@ urlpatterns = [
     url(r'^list/$', views.list, name='list'),
     url(r'^quiz/$', views.quiz, name='quiz'),
     url(r'^quiz/run/$', views.run_quiz, name='run_quiz'),
+    # part of Amazon S3
+    url(r'^upload_file/$', views.upload_file, name='upload_file'),
 ]

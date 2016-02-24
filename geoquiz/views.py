@@ -11,6 +11,11 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from django.db.models import Q
 
+#as part of Amazon S3 setup
+from django import forms
+# part of Amazon S3
+from django_boto.s3 import upload
+
 #Make a helper function that will verify if someone is logged in or not, and have a parameter that will be the URL to relocate to after they've successfully logged in??
 
 def home(request):
@@ -114,3 +119,33 @@ def run_quiz(request):
 	answer = request.POST['answer']
 	print answer
 	return HttpResponse("question answered")
+
+
+#part of Amazon S3
+class UploadFileForm(forms.Form):
+   #this is the part which causes the 'File:', 'Choose file' button and 'No file chosen' to show up
+   file = forms.FileField()
+
+#part of Amazon S3
+def upload_file(request):
+	if request.method == 'GET' or request.method != 'POST':
+		form = UploadFileForm()
+		return render(request,'geoquiz/upload_file.html', {'form':form})
+
+	form = UploadFileForm(request.POST, request.FILES)
+	if form.is_valid():
+		print "request.Files['file']:", request.FILES['file']
+		#NB this is the url where the image can be found
+		upload_path = upload(request.FILES['file'])
+		#upload() derived from django_boto.s3 import upload
+	print "upload path:", upload_path
+
+	response = HttpResponse()
+
+	response.write('<h3>File successfully uploaded</h2>')
+	response.write('<p>Click <a href="/">here</a> to go back to the home page</p>')
+
+	return response
+
+
+

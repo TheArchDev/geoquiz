@@ -1,0 +1,15 @@
+{% extends 'geoquiz/base.html' %}
+
+{% block title %}Upload File - Geoquiz{% endblock %}
+
+{% block content %}
+
+<h1>upload_file html file</h1>
+
+<form  method="POST" enctype="multipart/form-data">
+	{% csrf_token %}
+	{{ form }}
+	<input type = "submit" value = "Submit">
+</form>
+
+{% endblock %}
