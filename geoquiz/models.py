@@ -27,6 +27,7 @@ class Question(models.Model):
 	status = models.IntegerField()
 
 #run this function within the manage.py Django shell to populate the database.
+#need to i) import requests ii) from geoquiz.models import store_country_api_data etc
 def store_country_api_data():
 
 	url = 'http://restcountries.eu/rest/v1/all'
