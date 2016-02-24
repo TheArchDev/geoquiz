@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-#from .models import
+from .models import Country
 
 from django.template import RequestContext
 
@@ -64,7 +64,14 @@ def logout_user(request):
 
 def list(request):
 	#return HttpResponse("List page")
-	return render(request, 'geoquiz/list.html', {})
+
+	#all_countries = ["Canada", "Germany", "Jamaica"]
+	all_countries = Country.objects.all()
+
+	message = "Successful substitution"
+
+	return render(request, 'geoquiz/list.html', {"all_countries": all_countries, "message": message})
+
 
 def quiz(request):
 	#return HttpResponse("Quiz page")

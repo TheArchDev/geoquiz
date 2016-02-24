@@ -6,4 +6,18 @@
 
 <h1>List HTML document</h1>
 
+<p>{{ message }}</p>
+
+
+<ul>
+	<p>List of all countries in database</p>
+	{% for country in all_countries %}
+	<li>{{ country.name }}</li>
+	<li>{{ country.capital }}</li>
+	<li>{{ country.continent }}</li>
+	</br>
+	{% endfor %}
+</uL>
+
+
 {% endblock %}
