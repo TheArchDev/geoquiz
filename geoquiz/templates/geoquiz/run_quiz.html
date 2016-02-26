@@ -1,7 +1,7 @@
 {% extends 'geoquiz/base.html' %}
+{% load app_filters %}
 
 {% block title %}Active Quiz - Geoquiz{% endblock %}
-
 
 {% block content %}
 
@@ -10,13 +10,22 @@
 <h3>Region: {{ region }}</h3>
 <h3>Category: {{ question_type }}</h3>
 
-<p>Question: </p>
-
 <form action='/quiz/run/' method='post'>
 	{% csrf_token %}
-	<label for='answer'>Answer:</label>
-	<input type='text' name='answer' maxlength='30' required></input></br>
-	<input type='submit' name='SUBMIT' value="Submit Answer"></input>
+	{% for country in countries_in_quiz %}
+	<div id='{{ forloop.counter }}'>
+		<p style='display:inline'>Country: {{ country.name }}</p>
+		<label for='{{ country.id }}'>Capital:</label>
+		<select name='{{ country.id }}'>
+			{% for country_option in countries_multichoice|return_array_element_by_index:forloop.counter0 %}
+			<option value='{{ country_option.id }}'>{{ country_option.capital }}</option>
+			{% endfor %}
+		</select>
+
+	</div>
+	{% endfor %}
+	<input type='text' name='quiz_id' value='{{ quiz.id }}' hidden></input>
+	<input type='submit' name='SUBMIT' value='Submit Quiz'></input>
 </form>
 
 {% endblock %}

@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from .models import Country
+from .models import Country, Quiz, Question
 
 from django.template import RequestContext
 
@@ -15,6 +15,9 @@ from django.db.models import Q
 from django import forms
 # part of Amazon S3
 from django_boto.s3 import upload
+
+import random
+from random import shuffle
 
 #Make a helper function that will verify if someone is logged in or not, and have a parameter that will be the URL to relocate to after they've successfully logged in??
 
@@ -107,19 +110,56 @@ def run_quiz(request):
 		return redirect('/login')
 
 	question_categories = {u'1':'Country to Capital', u'2':'Country to Flag', u'3':'Capital to Country', u'4':'Capital to Flag', u'5':'Flag to Country', u'6':'Flag to Capital'}
+	question_direction = {u'1':['name', 'capital'], u'2':['name', 'flag'], u'3':['capital', 'name'], u'4':['capital', 'flag'], u'5':['flag', 'name'], u'6':['flag', 'capital']}
 
-	if request.method != 'POST':
-		region = request.GET.get('region')
-		print region
-		question_type = question_categories[request.GET.get('question_type')]
-		print question_type
 
-		return render(request, 'geoquiz/run_quiz.html', {'region': region, 'question_type': question_type})
+	if request.method == 'POST':	
 
-	answer = request.POST['answer']
-	print answer
-	return HttpResponse("question answered")
+		for key,answer in request.POST.items():
+			if key != 'SUBMIT' and key !='csrfmiddlewaretoken' and key !='quiz_id':
+				if key == answer:
+					corresponding_question = Question.objects.filter(quiz_id=request.POST['quiz_id'], country_id=key)[0]
+					corresponding_question.status=1
+					corresponding_question.save()
+				else:
+					corresponding_question = Question.objects.filter(quiz_id=request.POST['quiz_id'], country_id=key)[0]
+					corresponding_question.status=2
+					corresponding_question.save()
 
+		response = HttpResponse()
+		response.write("Quiz finished and post method returned for /quiz/run/ page")
+		response.write('<p>Click <a href="/quiz/">here</a> to go back to quiz page</p>')
+		return response
+
+	quiz = Quiz(user_id=request.user.id)
+	quiz.save()
+
+	countries_in_quiz = Country.objects.filter(region=request.GET.get('region'))
+	countries_in_world = Country.objects.all()
+
+	countries_multichoice = []
+	for index,country in enumerate(countries_in_quiz):
+		#at the moment, all questions in a quiz will have to be the same type
+		question = Question(question_type=request.GET.get('question_type'), status=0, country_id = country.id, quiz_id=quiz.id)
+		question.save()
+
+		right_answer = countries_in_quiz[index]
+		#adding in the CORRECT answer to this particular question's multichoice options.
+		country_multichoice = [right_answer]
+		for x in range(0,4):
+			#could also only select randomly from countries in the region instead
+			wrong_answer = random.choice(countries_in_world)
+			while (wrong_answer.id == right_answer.id):
+				print "Trigger", wrong_answer.id, right_answer.id
+				wrong_answer = random.choice(countries_in_world)
+			country_multichoice.append(wrong_answer)
+		shuffle(country_multichoice)
+		countries_multichoice.append(country_multichoice)
+
+	question_type = question_categories[request.GET.get('question_type')]
+	region = request.GET.get('region')
+
+	return render(request, 'geoquiz/run_quiz.html', {'question_type': question_type, 'region':region, 'countries_in_quiz':countries_in_quiz, 'countries_multichoice':countries_multichoice, 'quiz':quiz})
 
 #part of Amazon S3
 class UploadFileForm(forms.Form):
@@ -142,7 +182,7 @@ def upload_file(request):
 
 	response = HttpResponse()
 
-	response.write('<h3>File successfully uploaded</h2>')
+	response.write('<h3>File successfully uploaded</h3>')
 	response.write('<p>Click <a href="/">here</a> to go back to the home page</p>')
 
 	return response
