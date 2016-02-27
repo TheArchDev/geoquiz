@@ -10,22 +10,94 @@
 <h3>Region: {{ region }}</h3>
 <h3>Category: {{ question_type }}</h3>
 
-<form action='/quiz/run/' method='post'>
+<h4>Question number <div style='display:inline' id='question_numb'></div> of <div style='display:inline' id='total_questions'></div></h4>
+
+<button id='previous_button' onclick='previous_question()' style='visibility:hidden'>Previous Question</button>
+<button id='next_button' onclick='next_question()'>Next Question</button>
+
+
+<form id='question_form' action='/quiz/run/' method='post'>
 	{% csrf_token %}
 	{% for country in countries_in_quiz %}
-	<div id='{{ forloop.counter }}'>
-		<p style='display:inline'>Country: {{ country.name }}</p>
-		<label for='{{ country.id }}'>Capital:</label>
-		<select name='{{ country.id }}'>
-			{% for country_option in countries_multichoice|return_array_element_by_index:forloop.counter0 %}
-			<option value='{{ country_option.id }}'>{{ country_option.capital }}</option>
+	<div style="display:none" id='{{ forloop.counter }}'>
+		<p style='display:inline; text-transform:capitalize'>{{ question_base }}: {{ country|dot_parameter:question_base }}</p>
+		<label for='{{ country.id }}'>Answer:</label>
+		<select name='{{ country.id }}' required>
+			<option value='' disabled selected>Select your option</option>
+			{% for country_option in countries_multichoice|array_index:forloop.counter0 %}
+			<option value='{{ country_option.id }}'>{{ country_option|dot_parameter:answer_base }}</option>
 			{% endfor %}
 		</select>
 
 	</div>
 	{% endfor %}
 	<input type='text' name='quiz_id' value='{{ quiz.id }}' hidden></input>
-	<input type='submit' name='SUBMIT' value='Submit Quiz'></input>
+	<input id='submit_button' style='display:none' type='submit' name='SUBMIT' value='Submit Quiz'></input>
 </form>
+
+<script>
+
+var current_question_number = 1;
+var number_of_questions = $('#question_form div:last-of-type').attr('id');
+
+
+$(document).ready(function() {
+	$('#1').css('display','inline');
+	$('#questions_remaining').html(number_of_questions);
+	$('#total_questions').html(number_of_questions);
+	$('#question_numb').html(current_question_number);
+});
+
+function next_question(){
+	console.log("Next question button clicked")
+	console.log(current_question_number);
+
+	var current_div = $('#'+current_question_number)
+	var current_option_value = $(current_div).find('select option:selected').attr('value')
+	if (current_option_value == '')
+	{
+		$('#submit_button').click();
+		return;
+	}
+
+	$('#'+current_question_number).css('display','none');
+	current_question_number = current_question_number + 1;
+	$('#'+current_question_number).css('display','inline');
+	$('#question_numb').html(current_question_number);
+
+	if (current_question_number == 2)
+	{
+		$('#previous_button').css('visibility', 'visible');
+	}
+	else if (current_question_number == number_of_questions)
+	{
+		$('#next_button').css('visibility', 'hidden')
+		$('#submit_button').css('display', 'block')
+	}
+}
+
+
+function previous_question(){
+	console.log("Previous question button clicked")
+	// var current_question_number=$('[display:inline]').css('id');
+	// console.log(current_question_number);
+	console.log(current_question_number);	
+	$('#'+current_question_number).css('display','none');
+	current_question_number = current_question_number - 1;
+	$('#'+current_question_number).css('display','inline')
+	$('#question_numb').html(current_question_number);
+
+	if (current_question_number == 1)
+	{
+		$('#previous_button').css('visibility','hidden');
+	}
+	else if (current_question_number == number_of_questions - 1)
+	{
+		$('#next_button').css('visibility','visible');
+		$('#submit_button').css('display','none');
+	}
+}
+
+</script>
 
 {% endblock %}

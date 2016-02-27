@@ -110,12 +110,14 @@ def run_quiz(request):
 		return redirect('/login')
 
 	question_categories = {u'1':'Country to Capital', u'2':'Country to Flag', u'3':'Capital to Country', u'4':'Capital to Flag', u'5':'Flag to Country', u'6':'Flag to Capital'}
-	question_direction = {u'1':['name', 'capital'], u'2':['name', 'flag'], u'3':['capital', 'name'], u'4':['capital', 'flag'], u'5':['flag', 'name'], u'6':['flag', 'capital']}
+	all_question_bases = {u'1':'name', u'2':'name', u'3':'capital', u'4':'capital', u'5':'flag', u'6':'flag'}
+	all_answer_bases = {u'1':'capital', u'2':'flag', u'3':'name', u'4':'flag', u'5':'name', u'6':'capital'}
 
 
 	if request.method == 'POST':	
 
 		for key,answer in request.POST.items():
+			print 'key', key
 			if key != 'SUBMIT' and key !='csrfmiddlewaretoken' and key !='quiz_id':
 				if key == answer:
 					corresponding_question = Question.objects.filter(quiz_id=request.POST['quiz_id'], country_id=key)[0]
@@ -147,7 +149,6 @@ def run_quiz(request):
 		#adding in the CORRECT answer to this particular question's multichoice options.
 		country_multichoice = [right_answer]
 		for x in range(0,4):
-			#could also only select randomly from countries in the region instead
 			wrong_answer = random.choice(countries_in_world)
 			while (wrong_answer.id == right_answer.id):
 				print "Trigger", wrong_answer.id, right_answer.id
@@ -157,9 +158,14 @@ def run_quiz(request):
 		countries_multichoice.append(country_multichoice)
 
 	question_type = question_categories[request.GET.get('question_type')]
+	#question_direction = question_direction_options[request.GET.get('question_type')]
+	question_base = all_question_bases[request.GET.get('question_type')]
+	answer_base = all_answer_bases[request.GET.get('question_type')]
+	print "\nquestion_base:", question_base
+	print "\nanswer_base:", answer_base
 	region = request.GET.get('region')
 
-	return render(request, 'geoquiz/run_quiz.html', {'question_type': question_type, 'region':region, 'countries_in_quiz':countries_in_quiz, 'countries_multichoice':countries_multichoice, 'quiz':quiz})
+	return render(request, 'geoquiz/run_quiz.html', {'question_type': question_type, 'region':region, 'countries_in_quiz':countries_in_quiz, 'countries_multichoice':countries_multichoice, 'quiz':quiz, 'question_base': question_base, 'answer_base': answer_base})
 
 #part of Amazon S3
 class UploadFileForm(forms.Form):
