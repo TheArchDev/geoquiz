@@ -106,6 +106,8 @@ def quiz(request):
 	return render(request, 'geoquiz/quiz.html', {})
 
 def run_quiz(request):
+	#need to have something here that redirects person to quiz.html to choose a quiz, if they got to this url directly without doing so... So basically, if not a POST request from quiz.html
+
 	if not request.user.is_authenticated():
 		return redirect('/login')
 
@@ -116,22 +118,28 @@ def run_quiz(request):
 
 	if request.method == 'POST':	
 
+		submitted_quiz_id = request.POST['quiz_id']
+
 		for key,answer in request.POST.items():
 			print 'key', key
 			if key != 'SUBMIT' and key !='csrfmiddlewaretoken' and key !='quiz_id':
 				if key == answer:
-					corresponding_question = Question.objects.filter(quiz_id=request.POST['quiz_id'], country_id=key)[0]
+					corresponding_question = Question.objects.filter(quiz_id=submitted_quiz_id, country_id=key)[0]
 					corresponding_question.status=1
 					corresponding_question.save()
 				else:
-					corresponding_question = Question.objects.filter(quiz_id=request.POST['quiz_id'], country_id=key)[0]
+					corresponding_question = Question.objects.filter(quiz_id=submitted_quiz_id, country_id=key)[0]
 					corresponding_question.status=2
 					corresponding_question.save()
 
-		response = HttpResponse()
-		response.write("Quiz finished and post method returned for /quiz/run/ page")
-		response.write('<p>Click <a href="/quiz/">here</a> to go back to quiz page</p>')
-		return response
+		#quiz = Quiz(id=submitted_quiz_id)
+
+		return render(request, 'geoquiz/results_quiz.html', {})
+
+		# response = HttpResponse()
+		# response.write("Quiz finished and post method returned for /quiz/run/ page")
+		# response.write('<p>Click <a href="/quiz/">here</a> to go back to quiz page</p>')
+		# return response
 
 	quiz = Quiz(user_id=request.user.id)
 	quiz.save()
@@ -165,7 +173,18 @@ def run_quiz(request):
 	print "\nanswer_base:", answer_base
 	region = request.GET.get('region')
 
-	return render(request, 'geoquiz/run_quiz.html', {'question_type': question_type, 'region':region, 'countries_in_quiz':countries_in_quiz, 'countries_multichoice':countries_multichoice, 'quiz':quiz, 'question_base': question_base, 'answer_base': answer_base})
+	#to randomise country_in_quiz and countries_multichoice TOGETHER, so as to randomise question order for each quiz
+	indices = range(len(countries_in_quiz))
+	shuffle(indices)
+	#countries_in_quiz_shuffled = [ for x in countries_in_quiz]
+	countries_in_quiz_shuffled = []
+	countries_multichoice_shuffled = []
+	for x in indices:
+		countries_in_quiz_shuffled.append(countries_in_quiz[x])
+		countries_multichoice_shuffled.append(countries_multichoice[x])
+
+
+	return render(request, 'geoquiz/run_quiz.html', {'question_type': question_type, 'region':region, 'countries_in_quiz':countries_in_quiz_shuffled, 'countries_multichoice':countries_multichoice_shuffled, 'quiz':quiz, 'question_base': question_base, 'answer_base': answer_base})
 
 #part of Amazon S3
 class UploadFileForm(forms.Form):
@@ -192,6 +211,3 @@ def upload_file(request):
 	response.write('<p>Click <a href="/">here</a> to go back to the home page</p>')
 
 	return response
-
-
-

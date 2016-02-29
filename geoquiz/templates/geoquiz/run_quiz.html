@@ -15,7 +15,6 @@
 <button id='previous_button' onclick='previous_question()' style='visibility:hidden'>Previous Question</button>
 <button id='next_button' onclick='next_question()'>Next Question</button>
 
-
 <form id='question_form' action='/quiz/run/' method='post'>
 	{% csrf_token %}
 	{% for country in countries_in_quiz %}
@@ -28,7 +27,6 @@
 			<option value='{{ country_option.id }}'>{{ country_option|dot_parameter:answer_base }}</option>
 			{% endfor %}
 		</select>
-
 	</div>
 	{% endfor %}
 	<input type='text' name='quiz_id' value='{{ quiz.id }}' hidden></input>
