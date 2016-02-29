@@ -16,7 +16,7 @@
 	<h4>For {{ country|dot_parameter:question_base }}</h4>
 	<p>The correct answer was {{ country|dot_parameter:answer_base }}</p>
 	{% if answered_questions_status|array_index:forloop.counter0 == 1 %}
-		<p style='color:green'><b>... and you answered {{ user_answered_countries|array_index:forloop.counter0|dot_parameter:answer_base }}!</b></p>
+		<p style='color:green'><b>... which you got right!</b></p>
 	{% elif answered_questions_status|array_index:forloop.counter0 == 2 %}
 		<p style='color:red'><b>... but you answered {{ user_answered_countries|array_index:forloop.counter0|dot_parameter:answer_base }}...</b></p>
 	{% endif %}

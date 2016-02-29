@@ -26,9 +26,9 @@
 
 <ul>
 	{% for country in all_countries %}
-	<li>{{ country.name }}</li>
-	<li>{{ country.capital }}</li>
-	<li>{{ country.region }}</li>
+	<li>Name: <b>{{ country.name }}</b></li>
+	<li>Capital: <b>{{ country.capital }}</b></li>
+	<li>Region: <b>{{ country.region }}</b></li>
 </br>
 {% endfor %}
 </uL>
@@ -50,11 +50,18 @@
 </div>
 
 <form>
-	Keyword:<br>
-	<input type="text" name="search" placeholder="Search list"><br>
+	Search by Keyword:<br>
+	<input type="text" name="search" placeholder="Search by Country Name or Capital"><br>
 	<input type='submit'/>
 </form>
 
+<script>
+	$("input[placeholder]").each(function ()
+	{
+        $(this).attr('size', $(this).attr('placeholder').length
+        	);
+    });
+</script>
 
 
 {% endblock %}

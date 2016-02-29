@@ -5,7 +5,6 @@
 <head>
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-
 	<link rel="stylesheet" href="{% static 'css/geoquiz.css' %}" type="text/css">
 	<!-- <link rel="stylesheet" href="/static/css/geoquiz.css" type="text/css"> -->
 	<!-- is another version that would achieve same end effect, but better to use static version -->
@@ -73,11 +72,15 @@
 	  </div><!-- /.container-fluid -->
 	</nav>
 
-{% block content %}
-{% endblock %}
+	<!-- Don't need this if I already have a navbar -->
+	<!-- <div class="page-header">
+		<h1><a href="/">Ecommerce</a></h1>
+	</div> -->
 
+	{% block content %}
+	{% endblock %}
 
-<!-- Look into having footer put in here, after the child html page content -->
+	<!-- Look into having footer put in here, after the child html page content -->
 
 </body>
 </html>
