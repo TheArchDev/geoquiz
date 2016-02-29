@@ -122,7 +122,7 @@ def run_quiz(request):
 
 		for key,answer in request.POST.items():
 			print 'key', key
-			if key != 'SUBMIT' and key !='csrfmiddlewaretoken' and key !='quiz_id':
+			if key != 'SUBMIT' and key !='csrfmiddlewaretoken' and key !='quiz_id' and key!='region' and key!='question_type' and key!='question_base' and key!='answer_base':
 				if key == answer:
 					corresponding_question = Question.objects.filter(quiz_id=submitted_quiz_id, country_id=key)[0]
 					corresponding_question.status=1
@@ -132,14 +132,26 @@ def run_quiz(request):
 					corresponding_question.status=2
 					corresponding_question.save()
 
-		#quiz = Quiz(id=submitted_quiz_id)
+		answered_questions = Question.objects.filter(quiz_id=submitted_quiz_id)
+		print 'answered_questions', answered_questions
+		question_type = request.POST['question_type']
+		region = request.POST['region']
+		question_base = request.POST['question_base']
+		answer_base = request.POST['answer_base']
+		countries_in_quiz = Country.objects.filter(region=region)
+		print '\n'
+		print answered_questions[1].country_id
+		print '\n'
+		user_answered_countries = []
+		answered_questions_status = []
+		for question in answered_questions:
+			country_answer = Country.objects.get(id=request.POST[str(question.country_id)])
+			print "country_answer.name", country_answer.name
+			user_answered_countries.append(country_answer)
+			answered_questions_status.append(question.status)
+		print '\nanswered_questions_status\n', answered_questions_status
 
-		return render(request, 'geoquiz/results_quiz.html', {})
-
-		# response = HttpResponse()
-		# response.write("Quiz finished and post method returned for /quiz/run/ page")
-		# response.write('<p>Click <a href="/quiz/">here</a> to go back to quiz page</p>')
-		# return response
+		return render(request, 'geoquiz/results_quiz.html', {'answered_questions': answered_questions, 'region': region, 'question_type': question_type, 'question_base': question_base, 'answer_base': answer_base, 'countries_in_quiz': countries_in_quiz, 'user_answered_countries':user_answered_countries, 'answered_questions_status':answered_questions_status})
 
 	quiz = Quiz(user_id=request.user.id)
 	quiz.save()

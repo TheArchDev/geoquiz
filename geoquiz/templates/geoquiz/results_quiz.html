@@ -1,0 +1,27 @@
+{% extends 'geoquiz/base.html' %}
+{% load app_filters %}
+
+{% block title %}Results - Geoquiz{% endblock %}
+
+
+
+{% block content %}
+
+<h1>Your results</h1>
+
+<h3>Region: {{ region }}</h3>
+<h3>Category: {{ question_type }}</h3>
+
+{% for country in countries_in_quiz %}
+	<h4>For {{ country|dot_parameter:question_base }}</h4>
+	<p>The correct answer was {{ country|dot_parameter:answer_base }}</p>
+	{% if answered_questions_status|array_index:forloop.counter0 == 1 %}
+		<p style='color:green'><b>... and you answered {{ user_answered_countries|array_index:forloop.counter0|dot_parameter:answer_base }}!</b></p>
+	{% elif answered_questions_status|array_index:forloop.counter0 == 2 %}
+		<p style='color:red'><b>... but you answered {{ user_answered_countries|array_index:forloop.counter0|dot_parameter:answer_base }}...</b></p>
+	{% endif %}
+
+
+{% endfor %}
+
+{% endblock %}

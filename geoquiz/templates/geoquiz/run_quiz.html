@@ -30,6 +30,10 @@
 	</div>
 	{% endfor %}
 	<input type='text' name='quiz_id' value='{{ quiz.id }}' hidden></input>
+	<input type='text' name='region' value='{{ region }}' hidden></input>
+	<input type='text' name='question_type' value='{{ question_type }}' hidden></input>
+	<input type='text' name='question_base' value='{{ question_base }}' hidden></input>
+	<input type='text' name='answer_base' value='{{ answer_base }}' hidden></input>
 	<input id='submit_button' style='display:none' type='submit' name='SUBMIT' value='Submit Quiz'></input>
 </form>
 
