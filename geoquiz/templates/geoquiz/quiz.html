@@ -4,34 +4,51 @@
 
 {% block content %}
 
-<h1>Quiz HTML document</h1>
-<h2>Choose your quiz</h2>
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="col-md-12">
+			<h1>Geoquiz Quiz selection</h1>
+		</div>
+	</div>
+	<div class="row-fluid">
+		<div class='col-md-12'>
+			<h2>Choose your quiz</h2>
+		</div>
+	</div>
+	<div class='row-fluid'>
+		<div class='col-md-12'>
+			<form action='/quiz/run' method='get'>
+				<label>Region:</label>
+				<select name='region' required>
+					<option value='' selected disabled>Please select a region</option>
+					<option value='Africa'>Africa</option>
+					<option value='Asia'>Asia</option>
+					<option value='Caribbean'>Caribbean</option>
+					<option value='Central America'>Central America</option>
+					<option value='Europe'>Europe</option>
+					<option value='North America'>North America</option>
+					<option value='Oceania'>Oceania</option>
+					<option value='South America'>South America</option>
+				</select>
+			</br>
+				<label>Quiz Type</label>
+				<select name="question_type" required>
+					<option value='' selected disabled>Please select a Quiz Type</option>
+					<option value='1'>Country to Capital</option>
+			<!-- 		<option value='2'>Country to Flag</option>
+			 -->		<option value='3'>Capital to Country</option>
+			<!-- 		<option value='4'>Capital to Flag</option>
+			 --><!-- 		<option value='5'>Flag to Country</option>
+			 --><!-- 		<option value='6'>Flag to Capital</option>
+			 -->	</select>
+			</br>
+				<input type='submit' name='SUBMIT' value="Start Quiz"></input>
+			</form>
+		</div>
+	</div>
+</div>
 
 
-<form action='/quiz/run' method='get'>
-	<label>Region:</label>
-	<select name='region'>
-		<option value='Africa'>Africa</option>
-		<option value='Asia'>Asia</option>
-		<option value='Caribbean'>Caribbean</option>
-		<option value='Central America'>Central America</option>
-		<option value='Europe'>Europe</option>
-		<option value='North America'>North America</option>
-		<option value='Oceania'>Oceania</option>
-		<option value='South America'>South America</option>
-	</select>
-</br>
-	<label>Question Type</label>
-	<select name="question_type">
-		<option value='1'>Country to Capital</option>
-<!-- 		<option value='2'>Country to Flag</option>
- -->		<option value='3'>Capital to Country</option>
-<!-- 		<option value='4'>Capital to Flag</option>
- --><!-- 		<option value='5'>Flag to Country</option>
- --><!-- 		<option value='6'>Flag to Capital</option>
- -->	</select>
-</br>
-	<input type='submit' name='SUBMIT' value="Start Quiz"></input>
-</form>
+
 
 {% endblock %}

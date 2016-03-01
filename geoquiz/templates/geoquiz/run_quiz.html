@@ -5,37 +5,56 @@
 
 {% block content %}
 
-<h1>Run Quiz HTML document</h1>
 
-<h3>Region: {{ region }}</h3>
-<h3>Category: {{ question_type }}</h3>
 
-<h4>Question number <div style='display:inline' id='question_numb'></div> of <div style='display:inline' id='total_questions'></div></h4>
-
-<button id='previous_button' onclick='previous_question()' style='visibility:hidden'>Previous Question</button>
-<button id='next_button' onclick='next_question()'>Next Question</button>
-
-<form id='question_form' action='/quiz/run/' method='post'>
-	{% csrf_token %}
-	{% for country in countries_in_quiz %}
-	<div style="display:none" id='{{ forloop.counter }}'>
-		<p style='display:inline; text-transform:capitalize'>{{ question_base }}: {{ country|dot_parameter:question_base }}</p>
-		<label for='{{ country.id }}'>Answer:</label>
-		<select name='{{ country.id }}' required>
-			<option value='' disabled selected>Select your option</option>
-			{% for country_option in countries_multichoice|array_index:forloop.counter0 %}
-			<option value='{{ country_option.id }}'>{{ country_option|dot_parameter:answer_base }}</option>
-			{% endfor %}
-		</select>
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="col-md-12">
+			<h1>Quiz time!</h1>
+		</div>
 	</div>
-	{% endfor %}
-	<input type='text' name='quiz_id' value='{{ quiz.id }}' hidden></input>
-	<input type='text' name='region' value='{{ region }}' hidden></input>
-	<input type='text' name='question_type' value='{{ question_type }}' hidden></input>
-	<input type='text' name='question_base' value='{{ question_base }}' hidden></input>
-	<input type='text' name='answer_base' value='{{ answer_base }}' hidden></input>
-	<input id='submit_button' style='display:none' type='submit' name='SUBMIT' value='Submit Quiz'></input>
-</form>
+	<div class="row-fluid">
+		<div class='col-md-12'>
+			<h3>Region: {{ region }}</h3>
+			<h3>Category: {{ question_type }}</h3>
+			<h4>Question number: <div style='display:inline' id='question_numb'></div> of <div style='display:inline' id='total_questions'></div></h4>
+		</div>
+	</div>
+	<div class='row-fluid'>
+		<div class='col-md-12'>
+			<button class="btn btn-primary" id='previous_button' onclick='previous_question()' style='visibility:hidden'>Previous Question</button>
+			<button class="btn btn-primary" id='next_button' onclick='next_question()'>Next Question</button>
+		</div>
+	</div>
+	<div class='row-fluid'>
+		<div class='col-md-12'>
+			<form id='question_form' action='/quiz/run/' method='post'>
+				{% csrf_token %}
+				{% for country in countries_in_quiz %}
+				<div style="display:none" id='{{ forloop.counter }}'>
+					<p style='display:inline; text-transform:capitalize'>{{ question_base }}: {{ country|dot_parameter:question_base }}</p>
+					<label for='{{ country.id }}'>Answer:</label>
+					<select name='{{ country.id }}' required>
+						<option value='' disabled selected>Select your option</option>
+						{% for country_option in countries_multichoice|array_index:forloop.counter0 %}
+						<option value='{{ country_option.id }}'>{{ country_option|dot_parameter:answer_base }}</option>
+						{% endfor %}
+					</select>
+				</div>
+				{% endfor %}
+				<input type='text' name='quiz_id' value='{{ quiz.id }}' hidden></input>
+				<input type='text' name='region' value='{{ region }}' hidden></input>
+				<input type='text' name='question_type' value='{{ question_type }}' hidden></input>
+				<input type='text' name='question_base' value='{{ question_base }}' hidden></input>
+				<input type='text' name='answer_base' value='{{ answer_base }}' hidden></input>
+				<input id='submit_button' style='display:none' type='submit' name='SUBMIT' value='Submit Quiz'></input>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+
 
 <script>
 
