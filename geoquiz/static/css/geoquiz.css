@@ -1,13 +1,38 @@
-h1 {
-	color: #7bb443;
-}
-
 body {
 	color: #1e5f25;
+	/*color: white;*/
 	text-align: center;
+	margin: 0 auto;
+	/*text-shadow: -1.5px 0 black, 0 1.5px black, 1.5px 0 black, 0 -1.5px black;*/
+
+}
+
+/*nav {
+	color: #1e5f25;
+}*/
+
+#submit_button {
 	margin: 0 auto;
 }
 
-nav {
-	color: #1e5f25;
+#top_central_section {
+	/*background-color: #cedd38;*/
+	background-color: #7bb443;
+	border-top-left-radius: 20px;
+	border-top-right-radius: 20px;
+	border: solid #1e5f25;
+}
+
+#middle_central_section {
+	/*background-color: #cedd38;*/
+	background-color: #7bb443;
+	border: solid #1e5f25;
+}
+
+#bottom_central_section {
+	/*background-color: #cedd38;*/
+	background-color: #7bb443;
+	border-bottom-left-radius: 20px;
+	border-bottom-right-radius: 20px;
+	border: solid #1e5f25;
 }

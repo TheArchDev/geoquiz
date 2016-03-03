@@ -24,14 +24,13 @@
 	</span>
 </div>
 
-<ul>
-	{% for country in all_countries %}
-	<li>Name: <b>{{ country.name }}</b></li>
-	<li>Capital: <b>{{ country.capital }}</b></li>
-	<li>Region: <b>{{ country.region }}</b></li>
+
+{% for country in all_countries %}
+<p>Name: <b>{{ country.name }}</b></p>
+<p>Capital: <b>{{ country.capital }}</b></p>
+<p>Region: <b>{{ country.region }}</b></p>
 </br>
 {% endfor %}
-</uL>
 
 <div class="pagination">
 	<span class="step-links">

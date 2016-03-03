@@ -103,6 +103,7 @@ def quiz(request):
 		error_message = "Please log in first"
 		return render(request, 'geoquiz/login.html', {'error_message': error_message})
 
+	# could do a SQL query to get hold of the different regions, then pass them through as an array. Would allow to do a for loop to print all of the region options
 	return render(request, 'geoquiz/quiz.html', {})
 
 def run_quiz(request):
