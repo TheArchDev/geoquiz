@@ -7,8 +7,22 @@ body {
 
 }
 
-/*nav {
-	color: #1e5f25;
+.navbar
+{
+	/*border: solid #1e5f25;*/
+	border-radius: 15px;
+	/*background: #7bb443;*/
+}
+
+.navbar a
+{
+	color: white;
+}
+
+/*.navbar-brand
+{
+	border-radius: 10px;
+	border: 4px solid #1e5f25;
 }*/
 
 #submit_button {
@@ -21,12 +35,16 @@ body {
 	border-top-left-radius: 20px;
 	border-top-right-radius: 20px;
 	border: solid #1e5f25;
+	border-bottom: none;
 }
 
 #middle_central_section {
 	/*background-color: #cedd38;*/
+	min-height: 120px;
 	background-color: #7bb443;
 	border: solid #1e5f25;
+	border-bottom: none;
+	border-top: none;
 }
 
 #bottom_central_section {
@@ -35,4 +53,5 @@ body {
 	border-bottom-left-radius: 20px;
 	border-bottom-right-radius: 20px;
 	border: solid #1e5f25;
+	border-top: none;
 }
