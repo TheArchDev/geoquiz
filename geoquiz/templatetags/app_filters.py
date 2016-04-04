@@ -14,4 +14,4 @@ def dot_parameter(variable, parameter):
 	try:
 		return getattr(variable,parameter)
 	except:
-		return 3
+		return None
