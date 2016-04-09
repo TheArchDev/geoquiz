@@ -29,29 +29,9 @@ body {
 	margin: 0 auto;
 }
 
-#top_central_section {
+#central_section {
 	/*background-color: #cedd38;*/
 	background-color: #7bb443;
-	border-top-left-radius: 20px;
-	border-top-right-radius: 20px;
+	border-radius: 20px;
 	border: solid #1e5f25;
-	border-bottom: none;
-}
-
-#middle_central_section {
-	/*background-color: #cedd38;*/
-	min-height: 120px;
-	background-color: #7bb443;
-	border: solid #1e5f25;
-	border-bottom: none;
-	border-top: none;
-}
-
-#bottom_central_section {
-	/*background-color: #cedd38;*/
-	background-color: #7bb443;
-	border-bottom-left-radius: 20px;
-	border-bottom-right-radius: 20px;
-	border: solid #1e5f25;
-	border-top: none;
 }

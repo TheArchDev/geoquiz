@@ -7,34 +7,22 @@
 
 {% block content %}
 
-
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-md-3"></div>
-		<div class="col-md-6" id='top_central_section'>
+		<div class="col-md-2"></div>
+		<div class="col-md-8" id='central_section'>
 			<h1>Geoquiz Home Page</h1>
-		</div>
-		<div class="col-md-3"></div>
-	</div>
-	<div class="row">
-		<div class="col-md-3">
-	      	<img style="height:110px; width:110px" alt="Brand" src="{% static 'css/geoquiz_logo.png' %}">
-		</div>
-		<div class='col-md-6' id='middle_central_section'>
 			<h2>Welcome back to Geoquiz {{ user.username}}!</h2>
 			<h2>{{ logout_message }}</h2>
-		</div>
-		<div class="col-md-3">
-	      	<img style="height:110px; width:110px" alt="Brand" src="{% static 'css/geoquiz_logo.png' %}">
-		</div>
-	</div>
-	<div class='row'>
-		<div class="col-md-3"></div>
-		<div class='col-md-6' id='bottom_central_section'>
 			<h3>What would you like to do?</h3>
             <p><a href="/list" class="btn btn-primary" role="button">List Mode</a> <a href="/quiz" class="btn btn-primary" role="button">Quiz Mode</a></p>
 		</div>
-		<div class="col-md-3"></div>
+		<div class="col-md-2"></div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+	      	<img style="height:110px; width:110px" alt="Brand" src="{% static 'css/geoquiz_logo.png' %}">
+		</div>
 	</div>
 </div>
 
