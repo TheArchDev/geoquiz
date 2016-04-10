@@ -18,6 +18,7 @@
 			<h3>Region: {{ region }}</h3>
 			<h3>Category: {{ question_type }}</h3>
 			<h4>Question number: <div style='display:inline' id='question_numb'></div> of <div style='display:inline' id='total_questions'></div></h4>
+		</br>
 		</div>
 	</div>
 	<div class='row-fluid'>
@@ -28,11 +29,12 @@
 	</div>
 	<div class='row-fluid'>
 		<div class='col-md-12'>
+		</br>
 			<form id='question_form' action='/quiz/run/' method='post'>
 				{% csrf_token %}
 				{% for country in countries_in_quiz %}
 				<div style="display:none" id='{{ forloop.counter }}'>
-					<p style='display:inline; text-transform:capitalize'>{{ question_base }}: {{ country|dot_parameter:question_base }}</p>
+					<h4 style='display:inline; text-transform:capitalize'>{{ question_base }}: {{ country|dot_parameter:question_base }}</h4>
 					<label for='{{ country.id }}'>Answer:</label>
 					<select name='{{ country.id }}' required>
 						<option value='' disabled selected>Select your option</option>
