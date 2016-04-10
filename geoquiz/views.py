@@ -154,11 +154,29 @@ def run_quiz(request):
 
 		return render(request, 'geoquiz/results_quiz.html', {'answered_questions': answered_questions, 'region': region, 'question_type': question_type, 'question_base': question_base, 'answer_base': answer_base, 'countries_in_quiz': countries_in_quiz, 'user_answered_countries':user_answered_countries, 'answered_questions_status':answered_questions_status})
 
+		
+
 	quiz = Quiz(user_id=request.user.id)
 	quiz.save()
 
-	countries_in_quiz = Country.objects.filter(region=request.GET.get('region'))
-	countries_in_world = Country.objects.all()
+	question_type = question_categories[request.GET.get('question_type')]
+	question_base = all_question_bases[request.GET.get('question_type')]
+	answer_base = all_answer_bases[request.GET.get('question_type')]
+	print "\nquestion_base:", question_base
+	print "\nanswer_base:", answer_base
+	print "\nquestion_type", question_type
+
+	region = request.GET.get('region')
+
+	# When going from capital to country, don't include countries which don't have a capital in the question list
+	if question_base == 'capital':
+		countries_in_quiz = Country.objects.filter(region=request.GET.get('region')).exclude(capital ='')
+		countries_in_world = Country.objects.all()
+	elif question_base == 'name':
+		countries_in_quiz = Country.objects.filter(region=request.GET.get('region'))
+		#Only allow countries with a capital to appear as alternative multichoice selections in ALL quiz types
+		countries_in_world = Country.objects.all().exclude(capital='')
+		#still need to add in changing '' to 'NO CAPITAL' for relevant cases in countries_in_quiz
 
 	countries_multichoice = []
 	for index,country in enumerate(countries_in_quiz):
@@ -177,14 +195,6 @@ def run_quiz(request):
 			country_multichoice.append(wrong_answer)
 		shuffle(country_multichoice)
 		countries_multichoice.append(country_multichoice)
-
-	question_type = question_categories[request.GET.get('question_type')]
-	#question_direction = question_direction_options[request.GET.get('question_type')]
-	question_base = all_question_bases[request.GET.get('question_type')]
-	answer_base = all_answer_bases[request.GET.get('question_type')]
-	print "\nquestion_base:", question_base
-	print "\nanswer_base:", answer_base
-	region = request.GET.get('region')
 
 	#to randomise country_in_quiz and countries_multichoice TOGETHER, so as to randomise question order for each quiz
 	indices = range(len(countries_in_quiz))
