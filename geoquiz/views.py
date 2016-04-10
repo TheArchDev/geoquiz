@@ -139,7 +139,13 @@ def run_quiz(request):
 		region = request.POST['region']
 		question_base = request.POST['question_base']
 		answer_base = request.POST['answer_base']
-		countries_in_quiz = Country.objects.filter(region=region)
+
+		# When going from capital to country, don't include countries which don't have a capital in the question list
+		if question_base == 'capital':
+			countries_in_quiz = Country.objects.filter(region=region).exclude(capital ='NO CAPITAL')
+		elif question_base == 'name':
+			countries_in_quiz = Country.objects.filter(region=region)
+
 		print '\n'
 		print answered_questions[1].country_id
 		print '\n'
@@ -154,7 +160,7 @@ def run_quiz(request):
 
 		return render(request, 'geoquiz/results_quiz.html', {'answered_questions': answered_questions, 'region': region, 'question_type': question_type, 'question_base': question_base, 'answer_base': answer_base, 'countries_in_quiz': countries_in_quiz, 'user_answered_countries':user_answered_countries, 'answered_questions_status':answered_questions_status})
 
-		
+
 
 	quiz = Quiz(user_id=request.user.id)
 	quiz.save()
@@ -170,12 +176,12 @@ def run_quiz(request):
 
 	# When going from capital to country, don't include countries which don't have a capital in the question list
 	if question_base == 'capital':
-		countries_in_quiz = Country.objects.filter(region=request.GET.get('region')).exclude(capital ='')
+		countries_in_quiz = Country.objects.filter(region=request.GET.get('region')).exclude(capital ='NO CAPITAL')
 		countries_in_world = Country.objects.all()
 	elif question_base == 'name':
 		countries_in_quiz = Country.objects.filter(region=request.GET.get('region'))
 		#Only allow countries with a capital to appear as alternative multichoice selections in ALL quiz types
-		countries_in_world = Country.objects.all().exclude(capital='')
+		countries_in_world = Country.objects.all().exclude(capital='NO CAPITAL')
 		#still need to add in changing '' to 'NO CAPITAL' for relevant cases in countries_in_quiz
 
 	countries_multichoice = []

@@ -55,3 +55,9 @@ def store_country_api_data():
 	# 	c = Country(name=country_name, capital=country_info[0], region=country_info[1])
 	# 	c.save()
 
+def change_empty_capitals():
+	no_capital_countries = Country.objects.all().filter(capital='')
+	for country in no_capital_countries:
+		country.capital = 'NO CAPITAL'
+		country.save()
+
